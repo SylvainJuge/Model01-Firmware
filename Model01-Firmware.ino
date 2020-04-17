@@ -75,6 +75,9 @@
 // Support for USB quirks, like changing the key state report protocol
 #include "Kaleidoscope-USB-Quirks.h"
 
+// add qukeys plugin
+#include "Kaleidoscope-Qukeys.h"
+
 /** This 'enum' is a list of all the macros used by the Model 01's firmware
   * The names aren't particularly important. What is important is that each
   * is unique.
@@ -89,9 +92,9 @@
   */
 
 enum { MACRO_VERSION_INFO,
-       MACRO_ANY
+       MACRO_ANY,
+       MACRO_TOGGLE_QUKEYS
      };
-
 
 
 /** The Model 01's key layouts are defined as 'keymaps'. By default, there are three
@@ -232,7 +235,7 @@ KEYMAPS(
    Key_LeftControl, Key_Backspace, Key_LeftGui, Key_LeftShift,
    ShiftToLayer(FUNCTION),
 
-   M(MACRO_ANY),  Key_6, Key_7, Key_8,     Key_9,         Key_0,         LockLayer(NUMPAD),
+   M(MACRO_TOGGLE_QUKEYS),  Key_6, Key_7, Key_8,     Key_9,         Key_0,         LockLayer(NUMPAD),
    Key_Enter,     Key_Y, Key_U, Key_I,     Key_O,         Key_P,         Key_Equals,
                   Key_H, Key_J, Key_K,     Key_L,         Key_Semicolon, Key_Quote,
    Key_RightAlt,  Key_N, Key_M, Key_Comma, Key_Period,    Key_Slash,     Key_Minus,
@@ -335,6 +338,11 @@ const macro_t *macroAction(uint8_t macroIndex, uint8_t keyState) {
 
   case MACRO_ANY:
     anyKeyMacro(keyState);
+    break;
+
+  case MACRO_TOGGLE_QUKEYS:
+    if (keyToggledOn(keyState))
+      Qukeys.toggle();
     break;
   }
   return MACRO_NONE;
