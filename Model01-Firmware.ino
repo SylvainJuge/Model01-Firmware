@@ -72,66 +72,16 @@
 // add qukeys plugin
 #include "Kaleidoscope-Qukeys.h"
 
-/** This 'enum' is a list of all the macros used by the Model 01's firmware
-  * The names aren't particularly important. What is important is that each
-  * is unique.
-  *
-  * These are the names of your macros. They'll be used in two places.
-  * The first is in your keymap definitions. There, you'll use the syntax
-  * `M(MACRO_NAME)` to mark a specific keymap position as triggering `MACRO_NAME`
-  *
-  * The second usage is in the 'switch' statement in the `macroAction` function.
-  * That switch statement actually runs the code associated with a macro when
-  * a macro key is pressed.
-  */
-
+// define list of macros
 enum { MACRO_VERSION_INFO,
        MACRO_ANY,
        MACRO_TOGGLE_QUKEYS
      };
 
 
-/** The Model 01's key layouts are defined as 'keymaps'. By default, there are three
-  * keymaps: The standard QWERTY keymap, the "Function layer" keymap and the "Numpad"
-  * keymap.
-  *
-  * Each keymap is defined as a list using the 'KEYMAP_STACKED' macro, built
-  * of first the left hand's layout, followed by the right hand's layout.
-  *
-  * Keymaps typically consist mostly of `Key_` definitions. There are many, many keys
-  * defined as part of the USB HID Keyboard specification. You can find the names
-  * (if not yet the explanations) for all the standard `Key_` defintions offered by
-  * Kaleidoscope in these files:
-  *    https://github.com/keyboardio/Kaleidoscope/blob/master/src/kaleidoscope/key_defs_keyboard.h
-  *    https://github.com/keyboardio/Kaleidoscope/blob/master/src/kaleidoscope/key_defs_consumerctl.h
-  *    https://github.com/keyboardio/Kaleidoscope/blob/master/src/kaleidoscope/key_defs_sysctl.h
-  *    https://github.com/keyboardio/Kaleidoscope/blob/master/src/kaleidoscope/key_defs_keymaps.h
-  *
-  * Additional things that should be documented here include
-  *   using ___ to let keypresses fall through to the previously active layer
-  *   using XXX to mark a keyswitch as 'blocked' on this layer
-  *   using ShiftToLayer() and LockLayer() keys to change the active keymap.
-  *   keeping NUM and FN consistent and accessible on all layers
-  *
-  * The PROG key is special, since it is how you indicate to the board that you
-  * want to flash the firmware. However, it can be remapped to a regular key.
-  * When the keyboard boots, it first looks to see whether the PROG key is held
-  * down; if it is, it simply awaits further flashing instructions. If it is
-  * not, it continues loading the rest of the firmware and the keyboard
-  * functions normally, with whatever binding you have set to PROG. More detail
-  * here: https://community.keyboard.io/t/how-the-prog-key-gets-you-into-the-bootloader/506/8
-  *
-  * The "keymaps" data structure is a list of the keymaps compiled into the firmware.
-  * The order of keymaps in the list is important, as the ShiftToLayer(#) and LockLayer(#)
-  * macros switch to key layers based on this list.
-  *
-  *
+// layers
 
-  * A key defined as 'ShiftToLayer(FUNCTION)' will switch to FUNCTION while held.
-  * Similarly, a key defined as 'LockLayer(NUMPAD)' will switch to NUMPAD when tapped.
-  */
-
-enum { PRIMARY, NUMPAD, FUNCTION }; // layers
+enum { PRIMARY, NUMPAD, FUNCTION };
 
 // *INDENT-OFF*
 
@@ -151,7 +101,7 @@ KEYMAPS(
     //============================================================================================
     M(MACRO_TOGGLE_QUKEYS),  Key_6,  Key_7,  Key_8,      Key_9,       Key_0,          LockLayer(NUMPAD),
     Key_Enter,               Key_Y,  Key_U,  Key_I,      Key_O,       Key_P,          Key_Equals,
-    /*---*/                  Key_H,  key_J,  Key_K,      Key_L,       Key_Semicolon,  Key_Quote,
+    /*---*/                  Key_H,  Key_J,  Key_K,      Key_L,       Key_Semicolon,  Key_Quote,
     Key_RightAlt,            Key_N,  Key_M,  Key_Comma,  Key_Period,  Key_Slash,      Key_Minus,
     //
     Key_RightShift,  Key_LeftAlt,  Key_Spacebar,  Key_RightControl,
@@ -203,11 +153,6 @@ KEYMAPS(
 
 /* Re-enable astyle's indent enforcement */
 // *INDENT-ON*
-
-/** versionInfoMacro handles the 'firmware version info' macro
- *  When a key bound to the macro is pressed, this macro
- *  prints out the firmware build information as virtual keystrokes
- */
 
 static void versionInfoMacro(uint8_t keyState) {
   if (keyToggledOn(keyState)) {
@@ -357,76 +302,25 @@ USE_MAGIC_COMBOS({.action = toggleKeyboardProtocol,
 // added in the order they're listed here.
 KALEIDOSCOPE_INIT_PLUGINS(
 
-  // Qukeys needs to be first
-  Qukeys,
-
-  // The EEPROMSettings & EEPROMKeymap plugins make it possible to have an
-  // editable keymap in EEPROM.
   EEPROMSettings,
   EEPROMKeymap,
-
-  // Focus allows bi-directional communication with the host, and is the
-  // interface through which the keymap in EEPROM can be edited.
   Focus,
-
-  // FocusSettingsCommand adds a few Focus commands, intended to aid in
-  // changing some settings of the keyboard, such as the default layer (via the
-  // `settings.defaultLayer` command)
   FocusSettingsCommand,
-
-  // FocusEEPROMCommand adds a set of Focus commands, which are very helpful in
-  // both debugging, and in backing up one's EEPROM contents.
   FocusEEPROMCommand,
-
-  // The boot greeting effect pulses the LED button for 10 seconds after the
-  // keyboard is first connected
   BootGreetingEffect,
-
-  // The hardware test mode, which can be invoked by tapping Prog, LED and the
-  // left Fn button at the same time.
   HardwareTestMode,
 
-  // LEDControl provides support for other LED modes
+  // led effects
   LEDControl,
-
-  // We start with the LED effect that turns off all the LEDs.
   LEDOff,
-
-  // The rainbow effect changes the color of all of the keyboard's keys at the same time
-  // running through all the colors of the rainbow.
   LEDRainbowEffect,
-
-  // The rainbow wave effect lights up your keyboard with all the colors of a rainbow
-  // and slowly moves the rainbow across your keyboard
   LEDRainbowWaveEffect,
-
-  // The chase effect follows the adventure of a blue pixel which chases a red pixel across
-  // your keyboard. Spoiler: the blue pixel never catches the red pixel
   LEDChaseEffect,
-
-  // These static effects turn your keyboard's LEDs a variety of colors
-  solidRed, solidOrange, solidYellow, solidGreen, solidBlue, solidIndigo, solidViolet,
-
-  // The breathe effect slowly pulses all of the LEDs on your keyboard
   LEDBreatheEffect,
-
-  // The AlphaSquare effect prints each character you type, using your
-  // keyboard's LEDs as a display
-  AlphaSquareEffect,
-
-  // The stalker effect lights up the keys you've pressed recently
   StalkerEffect,
-
-  // The LED Palette Theme plugin provides a shared palette for other plugins,
-  // like Colormap below
   LEDPaletteTheme,
-
-  // The Colormap effect makes it possible to set up per-layer colormaps
   ColormapEffect,
-
-  // The numpad plugin is responsible for lighting up the 'numpad' mode
-  // with a custom LED effect
-  NumPad,
+  NumPad, // TODO : remove
 
   // The macros plugin adds support for macros
   Macros,
@@ -434,46 +328,19 @@ KALEIDOSCOPE_INIT_PLUGINS(
   // The MouseKeys plugin lets you add keys to your keymap which move the mouse.
   MouseKeys,
 
-  // The HostPowerManagement plugin allows us to turn LEDs off when then host
-  // goes to sleep, and resume them when it wakes up.
   HostPowerManagement,
-
-  // The MagicCombo plugin lets you use key combinations to trigger custom
-  // actions - a bit like Macros, but triggered by pressing multiple keys at the
-  // same time.
   MagicCombo,
-
-  // The USBQuirks plugin lets you do some things with USB that we aren't
-  // comfortable - or able - to do automatically, but can be useful
-  // nevertheless. Such as toggling the key report protocol between Boot (used
-  // by BIOSes) and Report (NKRO).
   USBQuirks
 );
 
-/** The 'setup' function is one of the two standard Arduino sketch functions.
- * It's called when your keyboard first powers up. This is where you set up
- * Kaleidoscope and any plugins.
- */
 void setup() {
-  QUKEYS(
-    kaleidoscope::plugin::Qukey(0, 2, 1, Key_LeftGui),      // A/cmd
-    kaleidoscope::plugin::Qukey(0, 2, 2, Key_LeftAlt),      // S/alt
-    kaleidoscope::plugin::Qukey(0, 2, 3, Key_LeftControl),  // D/ctrl
-    kaleidoscope::plugin::Qukey(0, 2, 4, Key_LeftShift),    // F/shift
-    kaleidoscope::plugin::Qukey(0, 3, 6, ShiftToLayer(1))   // Q/layer-shift (on `fn`)
-  )
   // First, call Kaleidoscope's internal setup function
   Kaleidoscope.setup();
 
-  // Activate qukeys by default
-  Qukeys.activate();
-
+// TODO remove
   // While we hope to improve this in the future, the NumPad plugin
   // needs to be explicitly told which keymap layer is your numpad layer
   NumPad.numPadLayer = NUMPAD;
-
-  // We configure the AlphaSquare effect to use RED letters
-  AlphaSquare.color = CRGB(255, 0, 0);
 
   // We set the brightness of the rainbow effects to 150 (on a scale of 0-255)
   // This draws more than 500mA, but looks much nicer than a dimmer effect
@@ -483,35 +350,15 @@ void setup() {
   // Set the action key the test mode should listen for to Left Fn
   HardwareTestMode.setActionKey(R3C6);
 
-  // The LED Stalker mode has a few effects. The one we like is called
-  // 'BlazingTrail'. For details on other options, see
-  // https://github.com/keyboardio/Kaleidoscope/blob/master/docs/plugins/LED-Stalker.md
   StalkerEffect.variant = STALKER(BlazingTrail);
 
-  // We want to make sure that the firmware starts with LED effects off
-  // This avoids over-taxing devices that don't have a lot of power to share
-  // with USB devices
+  // start with LEDs off
   LEDOff.activate();
 
-  // To make the keymap editable without flashing new firmware, we store
-  // additional layers in EEPROM. For now, we reserve space for five layers. If
-  // one wants to use these layers, just set the default layer to one in EEPROM,
-  // by using the `settings.defaultLayer` Focus command, or by using the
-  // `keymap.onlyCustom` command to use EEPROM layers only.
   EEPROMKeymap.setup(5);
 
-  // We need to tell the Colormap plugin how many layers we want to have custom
-  // maps for. To make things simple, we set it to five layers, which is how
-  // many editable layers we have (see above).
   ColormapEffect.max_layers(5);
 }
-
-/** loop is the second of the standard Arduino sketch functions.
-  * As you might expect, it runs in a loop, never exiting.
-  *
-  * For Kaleidoscope-based keyboard firmware, you usually just want to
-  * call Kaleidoscope.loop(); and not do anything custom here.
-  */
 
 void loop() {
   Kaleidoscope.loop();
