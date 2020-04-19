@@ -1,0 +1,31 @@
+Key states
+
+keyToggledOn(keyState)
+- when key is down (transition)
+
+keyToggledOff(keyState)
+- when key is up (transition)
+
+keyIsPressed(keyState)
+- when key is down or hold down
+
+### things to do (high priority)
+- make a global fork of the whole project to allow using my own repository (in a different folder, which would allow to keep original firmware)
+- oneshot plugin: combine sequence of keys
+- qukeys plugin (dual use)
+
+### things to explore (low priority)
+- typing breaks plugin
+- host os plugin: ??
+- focus plugin: communicate with host through serial port
+- layerfocus: control which layer through serial port ?
+- activelayer color plugin
+- heat map plugin ?
+- led wavepool
+- shape shifter plugin
+- space cadet plugin
+- tapdance plugin
+- topsyturvy
+- tricolor plugin
+- turbo plugin
+- win key toggle
