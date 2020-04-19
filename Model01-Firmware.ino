@@ -142,7 +142,7 @@ KEYMAPS(
   [PRIMARY] = KEYMAP_STACKED(
     ___,           Key_1,  Key_2,  Key_3,  Key_4,  Key_5,  Key_LEDEffectNext,
     Key_Backtick,  Key_Q,  Key_W,  Key_E,  Key_R,  Key_T,  Key_Tab,
-    Key_PageUp,    Key_A,  Key_S,  Key_D,  Key_F,  Key_G, /*---*/
+    Key_PageUp,    Key_A,  Key_S,  Key_D,  Key_F,  Key_G,  /*---*/
     Key_PageDown,  Key_Z,  Key_X,  Key_C,  Key_V,  Key_B,  Key_Escape,
     //
     Key_LeftControl, Key_Backspace, Key_LeftGui, Key_LeftShift,
@@ -151,7 +151,7 @@ KEYMAPS(
     //============================================================================================
     M(MACRO_TOGGLE_QUKEYS),  Key_6,  Key_7,  Key_8,      Key_9,       Key_0,          LockLayer(NUMPAD),
     Key_Enter,               Key_Y,  Key_U,  Key_I,      Key_O,       Key_P,          Key_Equals,
-    /*---*/                  Key_H,  Key_J,  Key_K,      Key_L,       Key_Semicolon,  Key_Quote,
+    /*---*/                  Key_H,  key_J,  Key_K,      Key_L,       Key_Semicolon,  Key_Quote,
     Key_RightAlt,            Key_N,  Key_M,  Key_Comma,  Key_Period,  Key_Slash,      Key_Minus,
     //
     Key_RightShift,  Key_LeftAlt,  Key_Spacebar,  Key_RightControl,
@@ -356,6 +356,10 @@ USE_MAGIC_COMBOS({.action = toggleKeyboardProtocol,
 // The order can be important. For example, LED effects are
 // added in the order they're listed here.
 KALEIDOSCOPE_INIT_PLUGINS(
+
+  // Qukeys needs to be first
+  Qukeys,
+
   // The EEPROMSettings & EEPROMKeymap plugins make it possible to have an
   // editable keymap in EEPROM.
   EEPROMSettings,
@@ -451,8 +455,18 @@ KALEIDOSCOPE_INIT_PLUGINS(
  * Kaleidoscope and any plugins.
  */
 void setup() {
+  QUKEYS(
+    kaleidoscope::plugin::Qukey(0, 2, 1, Key_LeftGui),      // A/cmd
+    kaleidoscope::plugin::Qukey(0, 2, 2, Key_LeftAlt),      // S/alt
+    kaleidoscope::plugin::Qukey(0, 2, 3, Key_LeftControl),  // D/ctrl
+    kaleidoscope::plugin::Qukey(0, 2, 4, Key_LeftShift),    // F/shift
+    kaleidoscope::plugin::Qukey(0, 3, 6, ShiftToLayer(1))   // Q/layer-shift (on `fn`)
+  )
   // First, call Kaleidoscope's internal setup function
   Kaleidoscope.setup();
+
+  // Activate qukeys by default
+  Qukeys.activate();
 
   // While we hope to improve this in the future, the NumPad plugin
   // needs to be explicitly told which keymap layer is your numpad layer
