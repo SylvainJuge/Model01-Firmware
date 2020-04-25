@@ -17,12 +17,13 @@
 #include "Kaleidoscope-LEDEffect-Breathe.h"
 #include "Kaleidoscope-LEDEffect-Rainbow.h"
 #include "Kaleidoscope-LED-Palette-Theme.h"
-#include <Kaleidoscope-LED-ActiveModColor.h>
+#include "Kaleidoscope-LED-ActiveModColor.h"
 #include "Kaleidoscope-Colormap.h"
 #include "Kaleidoscope-HardwareTestMode.h"
 #include "Kaleidoscope-HostPowerManagement.h"
 #include "Kaleidoscope-MagicCombo.h"
 #include "Kaleidoscope-USB-Quirks.h"
+#include "Kaleidoscope-Qukeys.h"
 
 // macros
 enum {
@@ -138,6 +139,7 @@ USE_MAGIC_COMBOS({
 });
 
 KALEIDOSCOPE_INIT_PLUGINS(
+  Qukeys,
   EEPROMSettings,
   EEPROMKeymap,
   Focus,
@@ -168,6 +170,20 @@ KALEIDOSCOPE_INIT_PLUGINS(
 );
 
 void setup() {
+  QUKEYS(
+    kaleidoscope::plugin::Qukey(-1, KeyAddr(2, 2), Key_LeftAlt),        // S/alt
+    kaleidoscope::plugin::Qukey(-1, KeyAddr(2, 3), Key_LeftControl),    // D/ctrl
+    kaleidoscope::plugin::Qukey(-1, KeyAddr(2, 4), Key_LeftShift),      // F/shift
+    kaleidoscope::plugin::Qukey(-1, KeyAddr(2, 11), Key_RightShift),    // J/shift
+    kaleidoscope::plugin::Qukey(-1, KeyAddr(2, 12), Key_RightControl),  // K/ctrl
+    kaleidoscope::plugin::Qukey(-1, KeyAddr(2, 13), Key_LeftAlt),       // L/alt
+    // TODO find a way to make fn+arrow easier to use with qukeys, for example when trying to scroll a web page with arrows
+    // assuming that using qukeys from same hand seems a good option
+    // one way to solve this would be to have one fn layer per hand
+  )
+  Qukeys.setHoldTimeout(200);
+  Qukeys.setOverlapThreshold(100);
+
   // First, call Kaleidoscope's internal setup function
   Kaleidoscope.setup();
 
@@ -187,6 +203,8 @@ void setup() {
   ColormapEffect.max_layers(5);
 
   ActiveModColorEffect.highlight_color = CRGB(0x00, 0xff, 0xff);
+
+  Qukeys.activate();
 }
 
 void loop() {
