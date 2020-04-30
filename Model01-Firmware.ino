@@ -171,17 +171,15 @@ KALEIDOSCOPE_INIT_PLUGINS(
 
 void setup() {
   QUKEYS(
-    kaleidoscope::plugin::Qukey(-1, KeyAddr(2, 2), Key_LeftAlt),        // S/alt
-    kaleidoscope::plugin::Qukey(-1, KeyAddr(2, 3), Key_LeftControl),    // D/ctrl
-    kaleidoscope::plugin::Qukey(-1, KeyAddr(2, 4), Key_LeftShift),      // F/shift
-    kaleidoscope::plugin::Qukey(-1, KeyAddr(2, 11), Key_RightShift),    // J/shift
-    kaleidoscope::plugin::Qukey(-1, KeyAddr(2, 12), Key_RightControl),  // K/ctrl
-    kaleidoscope::plugin::Qukey(-1, KeyAddr(2, 13), Key_LeftAlt),       // L/alt
-    // TODO find a way to make fn+arrow easier to use with qukeys, for example when trying to scroll a web page with arrows
-    // assuming that using qukeys from same hand seems a good option
-    // one way to solve this would be to have one fn layer per hand
+    kaleidoscope::plugin::Qukey(0, KeyAddr(2, 2), Key_LeftAlt),        // S/alt
+    kaleidoscope::plugin::Qukey(0, KeyAddr(2, 3), Key_LeftControl),    // D/ctrl
+    kaleidoscope::plugin::Qukey(0, KeyAddr(2, 4), Key_LeftShift),      // F/shift
+    kaleidoscope::plugin::Qukey(0, KeyAddr(2, 11), Key_RightShift),    // J/shift
+    kaleidoscope::plugin::Qukey(0, KeyAddr(2, 12), Key_RightControl),  // K/ctrl
+    kaleidoscope::plugin::Qukey(0, KeyAddr(2, 13), Key_LeftAlt),       // L/alt
   )
-  Qukeys.setHoldTimeout(200);
+
+  // strict qukeys, only when both keys 100%
   Qukeys.setOverlapThreshold(100);
 
   // First, call Kaleidoscope's internal setup function
