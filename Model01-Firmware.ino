@@ -10,7 +10,6 @@
 #include "Kaleidoscope-EEPROM-Settings.h"
 #include "Kaleidoscope-EEPROM-Keymap.h"
 #include "Kaleidoscope-FocusSerial.h"
-#include "Kaleidoscope-MouseKeys.h"
 #include "Kaleidoscope-Macros.h"
 #include "Kaleidoscope-LEDControl.h"
 #include "Kaleidoscope-LEDEffect-BootGreeting.h"
@@ -161,9 +160,6 @@ KALEIDOSCOPE_INIT_PLUGINS(
   // The macros plugin adds support for macros
   Macros,
 
-  // The MouseKeys plugin lets you add keys to your keymap which move the mouse.
-  MouseKeys,
-
   HostPowerManagement,
   MagicCombo,
   USBQuirks
@@ -181,6 +177,8 @@ void setup() {
 
   // strict qukeys, only when both keys 100%
   Qukeys.setOverlapThreshold(100);
+  // short delay for alternate keys, in an attempt to reduce the lag
+  Qukeys.setHoldTimeout(200);
 
   // First, call Kaleidoscope's internal setup function
   Kaleidoscope.setup();
