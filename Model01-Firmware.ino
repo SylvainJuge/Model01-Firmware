@@ -62,10 +62,10 @@ KEYMAPS(
 
 // fn layer
   [FUNCTION] =  KEYMAP_STACKED(
-    ___,       Key_F1,           Key_F2,      Key_F3,  Key_F4,  Key_F5,  Key_CapsLock,
-    Key_Tab,   ___,              ___,         ___,     ___,     ___,     ___,
-    Key_Home,  ___,              ___,         ___,     ___,     ___,     /*---*/
-    Key_End,   Key_PrintScreen,  Key_Insert,  ___,     ___,     ___,     ___,
+    ___,       Key_F1,           Key_F2,      Key_F3,        Key_F4,      Key_F5,   Key_CapsLock,
+    Key_Tab,   ___,              Key_Home,    Key_PageDown,  Key_PageUp,  Key_End,  ___,
+    Key_Home,  ___,              ___,         ___,           ___,         ___,      /*---*/
+    Key_End,   Key_PrintScreen,  Key_Insert,  ___,           ___,         ___,      ___,
     //
     ___,  Key_Delete,  ___,  ___,
     //
@@ -76,7 +76,7 @@ KEYMAPS(
     /*---*/                      Key_LeftArrow,           Key_DownArrow,             Key_UpArrow,               Key_RightArrow,   ___,               ___,
     Key_PcApplication,           Consumer_Mute,           Consumer_VolumeDecrement,  Consumer_VolumeIncrement,  ___,              Key_Backslash,     Key_Pipe,
     //
-    ___,  ___,  Key_Enter,  ___,
+    ___,  Key_LeftGui,  Key_Enter,  ___,
     //
     ___)
 ) // KEYMAPS
